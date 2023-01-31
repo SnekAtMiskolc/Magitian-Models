@@ -2,7 +2,7 @@ use super::RawCommit;
 
 /// # Commit
 /// The commit struct represents a commit in the database.
-/// They are meant to be created from RawCommits which are extracted from incoming packfiles.
+/// They are meant to be created from ```RawCommits``` which are extracted from incoming packfiles.
 /// They are both extracted on the http side and the ssh side.
 /// Only create them manually if the user uses the webapp to push to a repository.
 pub struct Commit {
@@ -14,7 +14,14 @@ pub struct Commit {
 }
 
 impl Commit {
-    pub fn new(id: String, name: Option<String>, email: String, message: Option<String>, commit: String) -> Self {
+    /// Creates a new ```Commit```
+    pub fn new(
+        id: String,
+        name: Option<String>,
+        email: String,
+        message: Option<String>,
+        commit: String,
+    ) -> Self {
         Self {
             id,
             name,
@@ -27,7 +34,6 @@ impl Commit {
 
 impl From<RawCommit> for Commit {
     fn from(c: RawCommit) -> Self {
-        // TODO: Change this to a Some(message) type deal
         let message = c.message().map(|m| m.to_string());
         let name = c.committer().name().map(|n| n.to_string());
         Self {

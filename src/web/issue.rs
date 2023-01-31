@@ -1,4 +1,3 @@
-
 /// Represents an issue in the database!
 /// It can reference a commit to discuss in the issue but it mmust always reference a repository.
 pub struct Issue {
@@ -12,7 +11,15 @@ pub struct Issue {
 }
 
 impl Issue {
-    pub fn new(id: String, user_id: String, repository_id: String, commit_id: Option<String>, title: String, body: String, status: String) -> Self {
+    pub fn new(
+        id: String,
+        user_id: String,
+        repository_id: String,
+        commit_id: Option<String>,
+        title: String,
+        body: String,
+        status: String,
+    ) -> Self {
         Self {
             id,
             user_id,
@@ -23,7 +30,13 @@ impl Issue {
             status,
         }
     }
-    pub fn get_comments() {todo!()}
-    pub fn insert() {todo!()}
-    pub fn delete() {todo!()}
+    pub fn get_comments() {
+        todo!()
+    }
+    pub fn insert() {
+        todo!()
+    }
+    pub fn delete() {
+        todo!()
+    }
 }
