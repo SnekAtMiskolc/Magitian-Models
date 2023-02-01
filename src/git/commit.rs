@@ -1,10 +1,12 @@
 use super::RawCommit;
+use serde_derive::{Deserialize, Serialize};
 
 /// # Commit
 /// The commit struct represents a commit in the database.
 /// They are meant to be created from ```RawCommits``` which are extracted from incoming packfiles.
 /// They are both extracted on the http side and the ssh side.
 /// Only create them manually if the user uses the webapp to push to a repository.
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Commit {
     pub id: String,
     pub name: Option<String>,

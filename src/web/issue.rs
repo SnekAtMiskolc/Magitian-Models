@@ -1,5 +1,8 @@
+use serde_derive::{Deserialize, Serialize};
+
 /// Represents an issue in the database!
 /// It can reference a commit to discuss in the issue but it mmust always reference a repository.
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Issue {
     id: String,
     user_id: String,
