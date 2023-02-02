@@ -1,3 +1,6 @@
+use serde_derive::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct OrganizationAT {
     pub id: String,
     pub org_id: String,
@@ -7,6 +10,7 @@ pub struct OrganizationAT {
     pub expires: String,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
 pub struct RepoAT {
     pub id: String,
     pub repo_id: String,
@@ -16,6 +20,7 @@ pub struct RepoAT {
     pub expires: String,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
 pub enum Role {
     // Has the perms to accept pull request
     Manager,
