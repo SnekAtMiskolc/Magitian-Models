@@ -1,7 +1,3 @@
-use std::io::Cursor;
-
-use git2::{ObjectType, Repository};
-
 use super::RawCommit;
 use serde_derive::{Deserialize, Serialize};
 
@@ -56,14 +52,18 @@ impl Commit {
 }
 
 impl From<RawCommit> for Commit {
+    /// Create a new ```Commit``` from a ```RawCommit```.
     fn from(c: RawCommit) -> Self {
         Self {
             // Assign an UUID to the commit that will be stored in the database.
             id: uuid::Uuid::new_v4().to_string(),
+            // Extract the name of the committer.
             name: c.committer().name().map(|n| n.to_string()),
+            // Extract the commiters email address.
             email: c.committer().email().map(|n| n.to_string()),
             // Extract the message from the commit.
             message: c.message().map(|m| m.to_string()),
+            // Extract the commit id from the commit.
             commit: c.id().to_string(),
         }
     }
