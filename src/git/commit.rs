@@ -1,3 +1,7 @@
+use std::io::Cursor;
+
+use git2::{Repository, ObjectType};
+
 use super::RawCommit;
 use serde_derive::{Deserialize, Serialize};
 
@@ -31,6 +35,14 @@ impl Commit {
             message,
             commit,
         }
+    }
+
+    /// Return a ```Vec<Commit>``` from commits that have not yet been stored in the database.
+    /// This means that we need to iterate objects in the repo's ODB (Object Database) and see if they
+    /// are a commit, if that is the case then we check if it is already in the database if so
+    /// then we shall not store it otherwise we push it to the ```Vec<Commit>``` after we use ```Into<RawCommit>``` on it.
+    pub fn from_unadded() -> Vec<Self> {
+        todo!()
     }
 }
 
