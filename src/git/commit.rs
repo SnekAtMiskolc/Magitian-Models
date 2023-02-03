@@ -1,6 +1,6 @@
 use std::io::Cursor;
 
-use git2::{Repository, ObjectType};
+use git2::{ObjectType, Repository};
 
 use super::RawCommit;
 use serde_derive::{Deserialize, Serialize};
@@ -44,6 +44,15 @@ impl Commit {
     pub fn from_unadded() -> Vec<Self> {
         todo!()
     }
+    pub fn insert() {
+        todo!()
+    }
+    pub fn delete() {
+        todo!()
+    }
+    pub fn query_by_commit_id() {todo!()}
+    pub fn query_by_id() {todo!()}
+    pub fn query_by_user() {todo!()}
 }
 
 impl From<RawCommit> for Commit {
