@@ -14,7 +14,7 @@ use serde_derive::{Deserialize, Serialize};
 pub struct Commit {
     pub id: String,
     pub name: Option<String>,
-    pub email: String,
+    pub email: Option<String>,
     pub message: Option<String>,
     pub commit: String,
 }
@@ -24,7 +24,7 @@ impl Commit {
     pub fn new(
         id: String,
         name: Option<String>,
-        email: String,
+        email: Option<String>,
         message: Option<String>,
         commit: String,
     ) -> Self {
@@ -57,15 +57,13 @@ impl Commit {
 
 impl From<RawCommit> for Commit {
     fn from(c: RawCommit) -> Self {
-        let message = c.message().map(|m| m.to_string());
-        let name = c.committer().name().map(|n| n.to_string());
         Self {
             // Assign an UUID to the commit that will be stored in the database.
             id: uuid::Uuid::new_v4().to_string(),
-            name,
-            email: String::from("EMAIL"),
+            name: c.committer().name().map(|n| n.to_string()),
+            email: c.committer().email().map(|n| n.to_string()),
             // Extract the message from the commit.
-            message,
+            message: c.message().map(|m| m.to_string()),
             commit: c.id().to_string(),
         }
     }
