@@ -9,27 +9,30 @@ use serde_derive::{Deserialize, Serialize};
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Commit {
     pub id: String,
+    pub commit_id: String,
     pub name: Option<String>,
     pub email: Option<String>,
     pub message: Option<String>,
-    pub commit: String,
+    pub timestamp: i64,
 }
 
 impl Commit {
     /// Creates a new ```Commit```
     pub fn new(
         id: String,
+        commit_id: String,
         name: Option<String>,
         email: Option<String>,
         message: Option<String>,
-        commit: String,
+        timestamp: i64,
     ) -> Self {
         Self {
             id,
+            commit_id,
             name,
             email,
             message,
-            commit,
+            timestamp,
         }
     }
 
@@ -57,14 +60,15 @@ impl From<RawCommit> for Commit {
         Self {
             // Assign an UUID to the commit that will be stored in the database.
             id: uuid::Uuid::new_v4().to_string(),
+            // Extract the commit id from the commit.
+            commit_id: c.id().to_string(),
             // Extract the name of the committer.
-            name: c.committer().name().map(|n| n.to_string()),
+            name: c.author().name().map(|n| n.to_string()),
             // Extract the commiters email address.
-            email: c.committer().email().map(|n| n.to_string()),
+            email: c.author().email().map(|n| n.to_string()),
             // Extract the message from the commit.
             message: c.message().map(|m| m.to_string()),
-            // Extract the commit id from the commit.
-            commit: c.id().to_string(),
+            timestamp: c.author().when().seconds().into(),
         }
     }
 }
