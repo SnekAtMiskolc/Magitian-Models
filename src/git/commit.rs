@@ -43,13 +43,19 @@ impl Commit {
     /// then we shall not store it otherwise we push it to the ```Vec<Commit>``` after we use ```Into<RawCommit>``` on it.
     pub fn from_unadded(repo: &Repository, marker: Option<&str>) -> Result<Vec<Self>, git2::Error> {
         let mut walker = repo.revwalk()?;
+        walker.set_sorting(git2::Sort::REVERSE)?;
         if let Some(marker) = marker {
-            walker.push(Oid::from_str(marker)?)?
+            // Push the head so that we iterate from HEAD to marker.
+            walker.push_head()?;
+            // Push the marker that we iterate to.
+            walker.push(Oid::from_str(marker)?)?;
+            // Hide the marker from the results.
+            walker.hide(Oid::from_str(marker)?)?;
         } else {
-            walker.push_head()?
+            walker.push_head()?;
         }
+
         let mut batch: Vec<RawCommit> = Vec::<RawCommit>::new();
-        const BATCH_SIZE: usize = 100;
         for oid in walker {
             let oid = oid?;
             let commit = repo.find_commit(oid)?;
