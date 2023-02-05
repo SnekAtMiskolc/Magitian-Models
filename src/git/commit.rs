@@ -1,5 +1,5 @@
 use super::RawCommit;
-use git2::{Oid, Repository, Revwalk};
+use git2::{Oid, Repository};
 use serde_derive::{Deserialize, Serialize};
 
 /// # Commit
@@ -55,12 +55,13 @@ impl Commit {
             walker.push_head()?;
         }
 
-        let mut batch: Vec<RawCommit> = Vec::<RawCommit>::new();
-        for oid in walker {
+        let batch: Vec<RawCommit> = walker
+            .map(|oid| {
             let oid = oid?;
-            let commit = repo.find_commit(oid)?;
-            batch.push(commit);
-        }
+            repo.find_commit(oid)
+        })
+        .filter_map(Result::ok)
+        .collect();
 
         Ok(batch.into_iter().map(|c| c.into()).collect())
     }
