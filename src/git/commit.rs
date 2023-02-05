@@ -64,21 +64,6 @@ impl Commit {
 
         Ok(batch.into_iter().map(|c| c.into()).collect())
     }
-    pub fn insert() {
-        todo!()
-    }
-    pub fn delete() {
-        todo!()
-    }
-    pub fn query_by_commit_id() {
-        todo!()
-    }
-    pub fn query_by_id() {
-        todo!()
-    }
-    pub fn query_by_user() {
-        todo!()
-    }
 }
 
 impl From<RawCommit<'_>> for Commit {
